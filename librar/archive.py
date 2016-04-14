@@ -134,7 +134,7 @@ class Archive(object):
             cmd = cmd + " -x" + p
 
         # the archive path and name
-        cmd = cmd + " " + self.archive_fullpath
+        cmd = '{cmd} "{archive}"'.format(cmd=cmd, archive=self.archive_fullpath)
 
         # directories to include
         for p in self.include_dirs:
@@ -142,7 +142,7 @@ class Archive(object):
 
         # files to include
         for p in self.include_files:
-            cmd = cmd + " " + p
+            cmd = '{cmd} "{p}"'.format(cmd=cmd, p=p)
 
         # include password if necessary
         if self.pwd:
@@ -171,6 +171,7 @@ class Archive(object):
 
         if self.sys_logger is not None:
             # hide the password with asterisks in syslog:
+            print "%s%s; result: %s" % (cmd, logpwd, res)
             self.sys_logger.log("%s%s; result: %s" % (cmd, logpwd, res))
 
         return res
